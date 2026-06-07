@@ -1,0 +1,26 @@
+name: Sync YouTube stats to Webflow CMS
+
+on:
+  schedule:
+    - cron: "0 22 * * *"
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Sync YouTube stats to Webflow
+        run: node sync-youtube-webflow.js
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          WEBFLOW_TOKEN: ${{ secrets.WEBFLOW_TOKEN }}
+          WEBFLOW_COLLECTION_ID: ${{ secrets.WEBFLOW_COLLECTION_ID }}
